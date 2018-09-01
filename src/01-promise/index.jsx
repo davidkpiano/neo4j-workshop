@@ -37,7 +37,8 @@ const light = styled.div`
 
 export class PromiseApp extends React.Component {
   state = {
-    appState: promiseMachine.initialState
+    appState: promiseMachine.initialState,
+    data: []
   };
   actions = {
     fetchData: () => {

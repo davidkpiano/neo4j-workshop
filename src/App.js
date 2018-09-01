@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import { FiniteStateMachine } from './00-finite-state-machine';
 import { PromiseApp } from './01-promise';
+import { ExternalStateApp } from './02-external-state';
+import { InterpreterApp } from './03-interpreter';
 
 class App extends Component {
   render() {
@@ -14,6 +16,8 @@ class App extends Component {
         </header>
         <FiniteStateMachine />
         <PromiseApp />
+        <ExternalStateApp />
+        <InterpreterApp />
       </div>
     );
   }
