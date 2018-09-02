@@ -10,6 +10,7 @@ import { ParallelApp } from './05-parallel';
 import { HistoryApp } from './06-history';
 import { GuardsApp } from './07-guards';
 import { TransientApp } from './08-transient';
+import { InternalExternalApp } from './09-internal-external';
 class App extends Component {
   render() {
     return (
@@ -27,6 +28,7 @@ class App extends Component {
         <HistoryApp />
         <GuardsApp />
         <TransientApp />
+        <InternalExternalApp />
       </div>
     );
   }
