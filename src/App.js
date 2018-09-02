@@ -7,6 +7,7 @@ import { ExternalStateApp } from './02-external-state';
 import { InterpreterApp } from './03-interpreter';
 import { NestedApp } from './04-nested';
 import { ParallelApp } from './05-parallel';
+import { HistoryApp } from './06-history';
 class App extends Component {
   render() {
     return (
@@ -21,6 +22,7 @@ class App extends Component {
         <InterpreterApp />
         <NestedApp />
         <ParallelApp />
+        <HistoryApp />
       </div>
     );
   }
