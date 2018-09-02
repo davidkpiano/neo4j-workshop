@@ -4,6 +4,7 @@ import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
+import { StateViewer } from '../StateViewer';
 
 export class TransientApp extends React.Component {
   actions = {};
@@ -44,6 +45,7 @@ export class TransientApp extends React.Component {
     return (
       <div>
         {JSON.stringify(appState.value)} | {JSON.stringify(appState.context)}
+        <StateViewer machine={this.machine} state={this.state.appState} />
       </div>
     );
   }

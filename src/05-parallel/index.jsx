@@ -4,6 +4,7 @@ import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
+import { StateViewer } from '../StateViewer';
 
 const FontStyle = styled.button`
   background: transparent;
@@ -85,6 +86,7 @@ export class ParallelApp extends React.Component {
           );
         })}
         <button onClick={_ => this.interpreter.send('RESET')}>Reset</button>
+        <StateViewer machine={this.machine} state={this.state.appState} />
       </div>
     );
   }

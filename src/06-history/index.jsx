@@ -4,6 +4,7 @@ import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
+import { StateViewer } from '../StateViewer';
 
 export class HistoryApp extends React.Component {
   actions = {};
@@ -44,7 +45,7 @@ export class HistoryApp extends React.Component {
   componentDidMount() {
     this.interpreter.init();
   }
-  render() {
+  renderScreen() {
     const { appState } = this.state;
 
     if (appState.matches('payment')) {
@@ -83,5 +84,13 @@ export class HistoryApp extends React.Component {
         </div>
       );
     }
+  }
+  render() {
+    return (
+      <div>
+        {this.renderScreen()}
+        <StateViewer machine={this.machine} state={this.state.appState} />
+      </div>
+    );
   }
 }

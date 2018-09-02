@@ -4,6 +4,7 @@ import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
+import { StateViewer } from '../StateViewer';
 
 export class InternalExternalApp extends React.Component {
   actions = {
@@ -52,6 +53,7 @@ export class InternalExternalApp extends React.Component {
         <button onClick={_ => this.interpreter.send('SUM')}>
           Calculate sum
         </button>
+        <StateViewer machine={this.machine} state={this.state.appState} />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
+import { StateViewer } from '../StateViewer';
 
 export class GuardsApp extends React.Component {
   actions = {
@@ -91,6 +92,7 @@ export class GuardsApp extends React.Component {
         {appState.matches('results.empty') && (
           <button onClick={_ => this.interpreter.send('RETRY')}>Retry</button>
         )}
+        <StateViewer machine={this.machine} state={this.state.appState} />
       </div>
     );
   }

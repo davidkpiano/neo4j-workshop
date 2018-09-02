@@ -2,6 +2,7 @@
 import React from 'react';
 import { Machine } from 'xstate';
 import styled from 'styled-components';
+import { StateViewer } from '../StateViewer';
 
 const promiseMachine = Machine({
   initial: 'idle',
@@ -84,6 +85,7 @@ export class PromiseApp extends React.Component {
       <div onClick={_ => this.send('FETCH')}>
         {JSON.stringify(this.state.appState.value, null, 2)}
         {this.state.data && JSON.stringify(this.state.data, null, 2)}
+        <StateViewer machine={promiseMachine} state={this.state.appState} />
       </div>
     );
   }

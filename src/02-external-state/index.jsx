@@ -3,6 +3,7 @@ import React from 'react';
 import { Machine } from 'xstate';
 import styled from 'styled-components';
 import { assign } from 'xstate/lib/actions';
+import { StateViewer } from '../StateViewer';
 
 export class ExternalStateApp extends React.Component {
   actions = {
@@ -80,6 +81,7 @@ export class ExternalStateApp extends React.Component {
       <div onClick={_ => this.send('FETCH')}>
         {JSON.stringify(appState.value, null, 2)}
         {JSON.stringify(context, null, 2)}
+        <StateViewer machine={this.machine} state={this.state.appState} />
       </div>
     );
   }

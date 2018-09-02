@@ -3,6 +3,7 @@ import React from 'react';
 import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
+import { StateViewer } from '../StateViewer';
 
 export class NestedApp extends React.Component {
   actions = {
@@ -130,6 +131,7 @@ export class NestedApp extends React.Component {
               </div>
             );
           })}
+        <StateViewer machine={this.machine} state={this.state.appState} />
       </div>
     );
   }
