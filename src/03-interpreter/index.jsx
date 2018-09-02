@@ -68,23 +68,6 @@ export class InterpreterApp extends React.Component {
   componentDidMount() {
     this.interpreter.init();
   }
-  // send(event) {
-  //   const nextState = this.machine.transition(this.state.appState, event);
-  //   const { actions } = nextState;
-
-  //   this.setState(
-  //     {
-  //       appState: this.machine.transition(this.state.appState, event)
-  //     },
-  //     () => {
-  //       actions.forEach(action => {
-  //         if (action.exec) {
-  //           action.exec(nextState.context, event);
-  //         }
-  //       });
-  //     }
-  //   );
-  // }
   render() {
     const { appState } = this.state;
     const { context } = appState;

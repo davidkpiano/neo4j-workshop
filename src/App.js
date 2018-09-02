@@ -5,7 +5,8 @@ import { FiniteStateMachine } from './00-finite-state-machine';
 import { PromiseApp } from './01-promise';
 import { ExternalStateApp } from './02-external-state';
 import { InterpreterApp } from './03-interpreter';
-
+import { NestedApp } from './04-nested';
+import { ParallelApp } from './05-parallel';
 class App extends Component {
   render() {
     return (
@@ -18,6 +19,8 @@ class App extends Component {
         <PromiseApp />
         <ExternalStateApp />
         <InterpreterApp />
+        <NestedApp />
+        <ParallelApp />
       </div>
     );
   }
