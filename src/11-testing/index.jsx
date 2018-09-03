@@ -13,7 +13,7 @@ export const machineConfig = {
       states: {
         question: {
           on: {
-            GOOD: 'thanks',
+            GOOD: 'form',
             BAD: 'form'
           }
         },
@@ -22,8 +22,8 @@ export const machineConfig = {
             SUBMIT: {
               thanks: {
                 actions: ['postForm'],
-                cond: fullState => {
-                  return fullState.input.length > 0;
+                cond: context => {
+                  return context.input.length > 0;
                 }
               }
             },
@@ -61,7 +61,11 @@ export class TestingApp extends Component {
     })
   };
 
-  machine = Machine(machineConfig, { actions: this.actions }, { input: '' });
+  machine = Machine(
+    machineConfig,
+    { actions: this.actions },
+    { input: this.props.feedback || '' }
+  );
 
   state = {
     appState: this.machine.initialState
@@ -126,7 +130,7 @@ export class TestingApp extends Component {
               e.preventDefault();
               this.interpreter.send({
                 type: 'SUBMIT',
-                value: this.state.input
+                value: this.state.appState.context.input
               });
             }}
           >

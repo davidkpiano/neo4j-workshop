@@ -7,9 +7,9 @@ import { Machine } from 'xstate';
 import * as utils from 'xstate/lib/utils';
 import { assert } from 'chai';
 
-const machine = Machine(machineConfig);
+const machine = Machine(machineConfig, {}, { input: 'test' });
 
-const simplePaths = graphUtils.getSimplePathsAsArray(machine, { input: '' });
+const simplePaths = graphUtils.getSimplePathsAsArray(machine);
 
 for (const { state: finalState, paths: statePaths } of simplePaths) {
   describe(`'${
@@ -19,7 +19,9 @@ for (const { state: finalState, paths: statePaths } of simplePaths) {
       afterEach(cleanup);
 
       test(`path ${i}: ${paths.map(path => path.event).join(' -> ')}`, () => {
-        const { getByTestId, queryByTestId, debug } = render(<TestingApp />);
+        const { getByTestId, queryByTestId, debug } = render(
+          <TestingApp feedback={'machine.context.input'} />
+        );
 
         const heuristics = {
           'open.question': () => getByTestId('question-screen'),
@@ -30,7 +32,7 @@ for (const { state: finalState, paths: statePaths } of simplePaths) {
           }
         };
 
-        const actions = {
+        const events = {
           GOOD: () => fireEvent.click(getByTestId('good-button')),
           BAD: () => fireEvent.click(getByTestId('bad-button')),
           SUBMIT: () => fireEvent.click(getByTestId('submit-button')),
@@ -54,7 +56,7 @@ for (const { state: finalState, paths: statePaths } of simplePaths) {
           assert.ok(heuristics[stateString](), `is not in '${stateString}'`);
 
           // execute the event
-          assert.doesNotThrow(() => event && actions[event]());
+          assert.doesNotThrow(() => event && events[event]());
         }
       });
     });
