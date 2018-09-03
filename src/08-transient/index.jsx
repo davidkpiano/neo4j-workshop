@@ -4,7 +4,7 @@ import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
-import { StateViewer } from '../StateViewer';
+import { Exercise } from '../Exercise';
 
 export class TransientApp extends React.Component {
   actions = {};
@@ -43,10 +43,15 @@ export class TransientApp extends React.Component {
     const { appState } = this.state;
 
     return (
-      <div>
-        {JSON.stringify(appState.value)} | {JSON.stringify(appState.context)}
-        <StateViewer machine={this.machine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="Transient States"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div>
+          {JSON.stringify(appState.value)} | {JSON.stringify(appState.context)}
+        </div>
+      </Exercise>
     );
   }
 }

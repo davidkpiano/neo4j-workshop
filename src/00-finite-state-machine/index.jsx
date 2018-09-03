@@ -2,34 +2,34 @@
 import React from 'react';
 import { Machine } from 'xstate';
 import styled from 'styled-components';
-
-const lightMachine = Machine({
-  initial: 'green',
-  states: {
-    green: { on: { TIMER: 'yellow' } },
-    yellow: { on: { TIMER: 'red' } },
-    red: { on: { TIMER: 'green' } }
-  }
-});
-
-const light = styled.div`
-  width: 10vmin;
-  height: 10vmin;
-  border-radius: 50%;
-`;
+import { Exercise } from '../Exercise';
 
 export class FiniteStateMachine extends React.Component {
+  machine = Machine({
+    initial: 'green',
+    states: {
+      green: { on: { TIMER: 'yellow' } },
+      yellow: { on: { TIMER: 'red' } },
+      red: { on: { TIMER: 'green' } }
+    }
+  });
   state = {
-    appState: lightMachine.initialState
+    appState: this.machine.initialState
   };
   send(event) {
     this.setState({
-      appState: lightMachine.transition(this.state.appState, event)
+      appState: this.machine.transition(this.state.appState, event)
     });
   }
   render() {
     return (
-      <div onClick={_ => this.send('TIMER')}>{this.state.appState.value}</div>
+      <Exercise
+        title="Finite State Machine"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div onClick={_ => this.send('TIMER')}>{this.state.appState.value}</div>
+      </Exercise>
     );
   }
 }

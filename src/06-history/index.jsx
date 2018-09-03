@@ -5,6 +5,7 @@ import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
 import { StateViewer } from '../StateViewer';
+import { Exercise } from '../Exercise';
 
 export class HistoryApp extends React.Component {
   actions = {};
@@ -87,10 +88,16 @@ export class HistoryApp extends React.Component {
   }
   render() {
     return (
-      <div>
-        {this.renderScreen()}
-        <StateViewer machine={this.machine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="History states"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div>
+          {this.renderScreen()}
+          <StateViewer machine={this.machine} state={this.state.appState} />
+        </div>
+      </Exercise>
     );
   }
 }

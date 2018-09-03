@@ -5,6 +5,7 @@ import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
 import { StateViewer } from '../StateViewer';
+import { Exercise } from '../Exercise';
 
 const FontStyle = styled.button`
   background: transparent;
@@ -73,21 +74,26 @@ export class ParallelApp extends React.Component {
     const { appState } = this.state;
 
     return (
-      <div>
-        {Object.keys(appState.value).map(key => {
-          return (
-            <FontStyle
-              key={key}
-              onClick={_ => this.interpreter.send(`TOGGLE.${key}`)}
-              data-state={appState.value[key]}
-            >
-              {key}
-            </FontStyle>
-          );
-        })}
-        <button onClick={_ => this.interpreter.send('RESET')}>Reset</button>
-        <StateViewer machine={this.machine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="Orthogonal (Parallel) States"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div>
+          {Object.keys(appState.value).map(key => {
+            return (
+              <FontStyle
+                key={key}
+                onClick={_ => this.interpreter.send(`TOGGLE.${key}`)}
+                data-state={appState.value[key]}
+              >
+                {key}
+              </FontStyle>
+            );
+          })}
+          <button onClick={_ => this.interpreter.send('RESET')}>Reset</button>
+        </div>
+      </Exercise>
     );
   }
 }

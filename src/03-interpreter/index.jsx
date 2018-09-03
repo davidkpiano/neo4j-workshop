@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import { StateViewer } from '../StateViewer';
+import { Exercise } from '../Exercise';
 
 export class InterpreterApp extends React.Component {
   actions = {
@@ -74,11 +75,16 @@ export class InterpreterApp extends React.Component {
     const { context } = appState;
 
     return (
-      <div onClick={_ => this.interpreter.send('FETCH')}>
-        {JSON.stringify(appState.value, null, 2)}
-        {JSON.stringify(context, null, 2)}
-        <StateViewer machine={this.machine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="Using the Interpreter"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div onClick={_ => this.interpreter.send('FETCH')}>
+          {JSON.stringify(appState.value, null, 2)}
+          {JSON.stringify(context, null, 2)}
+        </div>
+      </Exercise>
     );
   }
 }

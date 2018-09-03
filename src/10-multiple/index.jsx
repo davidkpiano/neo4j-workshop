@@ -5,6 +5,7 @@ import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
 import { StateViewer } from '../StateViewer';
+import { Exercise } from '../Exercise';
 
 class Todo extends React.Component {
   actions = {
@@ -124,27 +125,32 @@ export class MultipleApp extends React.Component {
     const { context } = appState;
 
     return (
-      <div>
-        {JSON.stringify(appState.context)}
-        {context.todos.map(todo => {
-          return (
-            <Todo
-              key={todo.id}
-              todo={todo}
-              onChange={todo =>
-                this.interpreter.send({ type: 'TODO.COMMIT', todo })
-              }
-            />
-          );
-        })}
-        <Todo
-          key={context.todos.length}
-          onChange={todo =>
-            this.interpreter.send({ type: 'TODO.COMMIT', todo })
-          }
-        />
-        <StateViewer machine={this.machine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="Multiple + Dynamic Statecharts"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div>
+          {JSON.stringify(appState.context)}
+          {context.todos.map(todo => {
+            return (
+              <Todo
+                key={todo.id}
+                todo={todo}
+                onChange={todo =>
+                  this.interpreter.send({ type: 'TODO.COMMIT', todo })
+                }
+              />
+            );
+          })}
+          <Todo
+            key={context.todos.length}
+            onChange={todo =>
+              this.interpreter.send({ type: 'TODO.COMMIT', todo })
+            }
+          />
+        </div>
+      </Exercise>
     );
   }
 }

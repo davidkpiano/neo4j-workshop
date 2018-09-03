@@ -4,7 +4,7 @@ import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
-import { StateViewer } from '../StateViewer';
+import { Exercise } from '../Exercise';
 
 export class GuardsApp extends React.Component {
   actions = {
@@ -73,27 +73,31 @@ export class GuardsApp extends React.Component {
     const { appState } = this.state;
     console.log(this.machine);
     return (
-      <div>
-        {JSON.stringify(appState.value)} | {JSON.stringify(appState.context)}
-        <input
-          type="text"
-          onChange={e =>
-            this.interpreter.send({
-              type: 'CHANGE',
-              value: e.target.value
-            })
-          }
-        />
-        <button onClick={_ => this.interpreter.send('SEARCH')}>Search</button>
-        {appState.context.results &&
-          appState.context.results.map(result => {
-            return <div key={result}>{result}</div>;
-          })}
-        {appState.matches('results.empty') && (
-          <button onClick={_ => this.interpreter.send('RETRY')}>Retry</button>
-        )}
-        <StateViewer machine={this.machine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="Guards (Conditional Transitions)"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div>
+          <input
+            type="text"
+            onChange={e =>
+              this.interpreter.send({
+                type: 'CHANGE',
+                value: e.target.value
+              })
+            }
+          />
+          <button onClick={_ => this.interpreter.send('SEARCH')}>Search</button>
+          {appState.context.results &&
+            appState.context.results.map(result => {
+              return <div key={result}>{result}</div>;
+            })}
+          {appState.matches('results.empty') && (
+            <button onClick={_ => this.interpreter.send('RETRY')}>Retry</button>
+          )}
+        </div>
+      </Exercise>
     );
   }
 }

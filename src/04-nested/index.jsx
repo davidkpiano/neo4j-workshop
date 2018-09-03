@@ -3,7 +3,7 @@ import React from 'react';
 import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
-import { StateViewer } from '../StateViewer';
+import { Exercise } from '../Exercise';
 
 export class NestedApp extends React.Component {
   actions = {
@@ -115,24 +115,29 @@ export class NestedApp extends React.Component {
     const { context } = appState;
 
     return (
-      <div onClick={() => this.interpreter.send('RETRY')}>
-        {JSON.stringify(appState.value, null, 2)}
-        {JSON.stringify(context, null, 2)}
-        {context.photos &&
-          context.photos.map((value, i) => {
-            return (
-              <div
-                key={i}
-                onClick={() =>
-                  this.interpreter.send({ type: 'CLICK.PHOTO', data: value })
-                }
-              >
-                {value}
-              </div>
-            );
-          })}
-        <StateViewer machine={this.machine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="Nested (Hierarchical) States"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div onClick={() => this.interpreter.send('RETRY')}>
+          {JSON.stringify(appState.value, null, 2)}
+          {JSON.stringify(context, null, 2)}
+          {context.photos &&
+            context.photos.map((value, i) => {
+              return (
+                <div
+                  key={i}
+                  onClick={() =>
+                    this.interpreter.send({ type: 'CLICK.PHOTO', data: value })
+                  }
+                >
+                  {value}
+                </div>
+              );
+            })}
+        </div>
+      </Exercise>
     );
   }
 }

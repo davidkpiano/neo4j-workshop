@@ -12,6 +12,7 @@ import { GuardsApp } from './07-guards';
 import { TransientApp } from './08-transient';
 import { InternalExternalApp } from './09-internal-external';
 import { MultipleApp } from './10-multiple';
+import { TestingApp } from './11-testing';
 import styled from 'styled-components';
 
 const examples = [
@@ -25,10 +26,9 @@ const examples = [
   GuardsApp,
   TransientApp,
   InternalExternalApp,
-  MultipleApp
+  MultipleApp,
+  TestingApp
 ];
-
-console.log(examples);
 
 const StyledApp = styled.div`
   display: grid;
@@ -62,9 +62,20 @@ const StyledExample = styled.div`
   padding: 1rem;
 `;
 
+function getCurrentExample(hash) {
+  const regex = /example-(\d+)/;
+  if (!hash || !regex.test(hash)) {
+    return 0;
+  }
+
+  return regex.exec(hash)[1];
+}
+
+console.log(getCurrentExample(window.location.href.split('#')[1]));
+
 class App extends Component {
   state = {
-    example: 0
+    example: getCurrentExample(window.location.href.split('#')[1])
   };
   render() {
     const Example = examples[this.state.example];
@@ -78,7 +89,7 @@ class App extends Component {
                   key={i}
                   onClick={_ => this.setState({ example: i })}
                 >
-                  {example.name}
+                  <a href={`#example-${i}`}>{example.name}</a>
                 </StyledNavItem>
               );
             })}

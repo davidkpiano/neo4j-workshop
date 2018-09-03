@@ -2,45 +2,9 @@
 import React from 'react';
 import { Machine } from 'xstate';
 import styled from 'styled-components';
-import { StateViewer } from '../StateViewer';
-
-const promiseMachine = Machine({
-  initial: 'idle',
-  states: {
-    idle: {
-      on: {
-        FETCH: 'pending'
-      }
-    },
-    pending: {
-      onEntry: 'fetchData',
-      on: {
-        FULFILL: 'fulfilled',
-        REJECT: 'rejected'
-      }
-    },
-    rejected: {
-      on: {
-        FETCH: 'pending'
-      }
-    },
-    fulfilled: {
-      onEntry: 'updateData'
-    }
-  }
-});
-
-const light = styled.div`
-  width: 10vmin;
-  height: 10vmin;
-  border-radius: 50%;
-`;
+import { Exercise } from '../Exercise';
 
 export class PromiseApp extends React.Component {
-  state = {
-    appState: promiseMachine.initialState,
-    data: []
-  };
   actions = {
     fetchData: () => {
       setTimeout(() => {
@@ -60,13 +24,45 @@ export class PromiseApp extends React.Component {
       this.setState({ data: event.data });
     }
   };
+  machine = Machine(
+    {
+      initial: 'idle',
+      states: {
+        idle: {
+          on: {
+            FETCH: 'pending'
+          }
+        },
+        pending: {
+          onEntry: 'fetchData',
+          on: {
+            FULFILL: 'fulfilled',
+            REJECT: 'rejected'
+          }
+        },
+        rejected: {
+          on: {
+            FETCH: 'pending'
+          }
+        },
+        fulfilled: {
+          onEntry: ['updateData']
+        }
+      }
+    },
+    { actions: this.actions }
+  );
+  state = {
+    appState: this.machine.initialState,
+    data: []
+  };
   send(event) {
-    const nextState = promiseMachine.transition(this.state.appState, event);
+    const nextState = this.machine.transition(this.state.appState, event);
     const { actions } = nextState;
 
     this.setState(
       {
-        appState: promiseMachine.transition(this.state.appState, event)
+        appState: nextState
       },
       () => {
         actions.forEach(action => {
@@ -82,11 +78,16 @@ export class PromiseApp extends React.Component {
   }
   render() {
     return (
-      <div onClick={_ => this.send('FETCH')}>
-        {JSON.stringify(this.state.appState.value, null, 2)}
-        {this.state.data && JSON.stringify(this.state.data, null, 2)}
-        <StateViewer machine={promiseMachine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="Promise"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div onClick={_ => this.send('FETCH')}>
+          {JSON.stringify(this.state.appState.value, null, 2)}
+          {this.state.data && JSON.stringify(this.state.data, null, 2)}
+        </div>
+      </Exercise>
     );
   }
 }

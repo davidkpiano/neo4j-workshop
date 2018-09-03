@@ -4,7 +4,7 @@ import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
 import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
-import { StateViewer } from '../StateViewer';
+import { Exercise } from '../Exercise';
 
 export class InternalExternalApp extends React.Component {
   actions = {
@@ -47,14 +47,21 @@ export class InternalExternalApp extends React.Component {
     const { appState } = this.state;
 
     return (
-      <div>
-        {JSON.stringify(appState.value)} | {JSON.stringify(appState.context)}
-        <button onClick={_ => this.interpreter.send('INCREMENT')}>+</button>
-        <button onClick={_ => this.interpreter.send('SUM')}>
-          Calculate sum
-        </button>
-        <StateViewer machine={this.machine} state={this.state.appState} />
-      </div>
+      <Exercise
+        title="Internal/External Transitions"
+        machine={this.machine}
+        state={this.state.appState}
+      >
+        <div>
+          <h2>
+            {appState.context.count} (Total: {appState.context.total})
+          </h2>
+          <button onClick={_ => this.interpreter.send('INCREMENT')}>+</button>
+          <button onClick={_ => this.interpreter.send('SUM')}>
+            Calculate sum
+          </button>
+        </div>
+      </Exercise>
     );
   }
 }

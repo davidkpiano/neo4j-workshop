@@ -55,7 +55,10 @@ export class StateViewer extends React.Component {
           this.setState({
             toggleStates: {
               ...this.state.toggleStates,
-              [stateNode.id]: !this.state.toggleStates[stateNode.id]
+              [stateNode.id]:
+                this.state.toggleStates[stateNode.id] === undefined
+                  ? false
+                  : !this.state.toggleStates[stateNode.id]
             }
           });
         }}
