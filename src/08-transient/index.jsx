@@ -13,22 +13,11 @@ export class TransientApp extends React.Component {
       key: 'greeting',
       initial: 'pending',
       states: {
-        pending: {
-          on: {
-            '': [
-              { target: 'morning', cond: ctx => ctx.hour < 12 },
-              { target: 'afternoon', cond: ctx => ctx.hour < 18 },
-              { target: 'evening' }
-            ]
-          }
-        },
-        morning: {},
-        afternoon: {},
-        evening: {}
+        pending: {}
       }
     },
     { actions: this.actions },
-    { hour: new Date().getHours() }
+    { hour: undefined }
   );
   state = {
     appState: this.machine.initialState
@@ -40,17 +29,14 @@ export class TransientApp extends React.Component {
     this.interpreter.init();
   }
   render() {
-    const { appState } = this.state;
-
     return (
       <Exercise
         title="Transient States"
         machine={this.machine}
         state={this.state.appState}
       >
-        <div>
-          {JSON.stringify(appState.value)} | {JSON.stringify(appState.context)}
-        </div>
+        Create a greeting app that tells the user "Good
+        morning/afternoon/evening", depending on what time (hour) it is.
       </Exercise>
     );
   }

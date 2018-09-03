@@ -6,17 +6,29 @@ import { interpret } from 'xstate/lib/interpreter';
 import styled from 'styled-components';
 import { Exercise } from '../Exercise';
 
-export class GuardsApp extends React.Component {
+export class TransientApp extends React.Component {
   actions = {};
   machine = Machine(
     {
-      initial: 'idle',
+      key: 'greeting',
+      initial: 'pending',
       states: {
-        idle: {}
+        pending: {
+          on: {
+            '': [
+              { target: 'morning', cond: ctx => ctx.hour < 12 },
+              { target: 'afternoon', cond: ctx => ctx.hour < 18 },
+              { target: 'evening' }
+            ]
+          }
+        },
+        morning: {},
+        afternoon: {},
+        evening: {}
       }
     },
     { actions: this.actions },
-    { query: '', results: undefined }
+    { hour: new Date().getHours() }
   );
   state = {
     appState: this.machine.initialState
@@ -28,17 +40,17 @@ export class GuardsApp extends React.Component {
     this.interpreter.init();
   }
   render() {
+    const { appState } = this.state;
+
     return (
       <Exercise
-        title="Guards (Conditional Transitions)"
+        title="Transient States"
         machine={this.machine}
         state={this.state.appState}
       >
-        Create a form that only executes a search when the search input is not
-        empty. <br />
-        <br />
-        Also, our server is pretty flakey, and sometimes shows zero results.
-        Create a retry button that retries the search when there are no results.
+        <div>
+          {JSON.stringify(appState.value)} | {JSON.stringify(appState.context)}
+        </div>
       </Exercise>
     );
   }

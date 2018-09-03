@@ -7,13 +7,28 @@ import styled from 'styled-components';
 import { Exercise } from '../Exercise';
 
 export class InternalExternalApp extends React.Component {
-  actions = {};
+  actions = {
+    reset: assign({ count: 0 }),
+    sum: assign({ total: ctx => ctx.total + ctx.count }),
+    increment: assign({ count: ctx => ctx.count + 1 })
+  };
   machine = Machine(
     {
       key: 'greeting',
       initial: 'count',
       states: {
-        count: {}
+        count: {
+          onEntry: ['reset'],
+          on: {
+            INCREMENT: [
+              // { actions: ['increment'] }
+              { target: undefined, actions: ['increment'], internal: true }
+            ],
+            // 'count'
+            SUM: [{ target: 'count', internal: false }]
+          },
+          onExit: ['sum']
+        }
       }
     },
     { actions: this.actions },
@@ -37,8 +52,15 @@ export class InternalExternalApp extends React.Component {
         machine={this.machine}
         state={this.state.appState}
       >
-        Create a counting app with an "Add" button, that adds the current
-        counter to the total, and then resets the counter.
+        <div>
+          <h2>
+            {appState.context.count} (Total: {appState.context.total})
+          </h2>
+          <button onClick={_ => this.interpreter.send('INCREMENT')}>+</button>
+          <button onClick={_ => this.interpreter.send('SUM')}>
+            Calculate sum
+          </button>
+        </div>
       </Exercise>
     );
   }

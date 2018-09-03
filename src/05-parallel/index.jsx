@@ -11,8 +11,9 @@ const FontStyle = styled.button`
   background: transparent;
   border: 1px solid blue;
   display: inline-block;
-  padding: 1rem;
+  padding: 0.5rem;
   color: blue;
+  font-weight: bold;
 
   &[data-state='active'] {
     background: blue;
@@ -26,38 +27,7 @@ export class ParallelApp extends React.Component {
     {
       id: 'fontStyles',
       parallel: true,
-      states: {
-        bold: {
-          initial: 'inactive',
-          states: {
-            inactive: {
-              on: { 'TOGGLE.bold': 'active' }
-            },
-            active: { on: { 'TOGGLE.bold': 'inactive' } }
-          }
-        },
-        italic: {
-          initial: 'inactive',
-          states: {
-            inactive: {
-              on: { 'TOGGLE.italic': 'active' }
-            },
-            active: { on: { 'TOGGLE.italic': 'inactive' } }
-          }
-        },
-        underline: {
-          initial: 'inactive',
-          states: {
-            inactive: {
-              on: { 'TOGGLE.underline': 'active' }
-            },
-            active: { on: { 'TOGGLE.underline': 'inactive' } }
-          }
-        }
-      },
-      on: {
-        RESET: '#fontStyles'
-      }
+      states: {}
     },
     { actions: this.actions }
   );
@@ -71,28 +41,14 @@ export class ParallelApp extends React.Component {
     this.interpreter.init();
   }
   render() {
-    const { appState } = this.state;
-
     return (
       <Exercise
         title="Orthogonal (Parallel) States"
         machine={this.machine}
         state={this.state.appState}
       >
-        <div>
-          {Object.keys(appState.value).map(key => {
-            return (
-              <FontStyle
-                key={key}
-                onClick={_ => this.interpreter.send(`TOGGLE.${key}`)}
-                data-state={appState.value[key]}
-              >
-                {key}
-              </FontStyle>
-            );
-          })}
-          <button onClick={_ => this.interpreter.send('RESET')}>Reset</button>
-        </div>
+        Create a font style toolbar that toggles between the bold, italic,
+        underline states. Add reset functionality.
       </Exercise>
     );
   }
