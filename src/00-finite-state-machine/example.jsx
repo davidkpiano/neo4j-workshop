@@ -22,6 +22,7 @@ const TrafficLights = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 export class FiniteStateMachine extends React.Component {
   machine = Machine({
     initial: 'green',

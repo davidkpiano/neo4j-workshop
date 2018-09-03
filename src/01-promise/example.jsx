@@ -7,21 +7,20 @@ import { Exercise } from '../Exercise';
 export class PromiseApp extends React.Component {
   actions = {
     fetchData: () => {
-      setTimeout(() => {
-        const success = Math.random() < 0.5;
-
-        if (success) {
+      console.log('testing');
+      fetch('https://swapi.co/api/people/1')
+        .then(data => data.json())
+        .then(data => {
           this.send({
             type: 'FULFILL',
-            data: ['foo', 'bar', 'baz']
+            data
           });
-        } else {
-          this.send({ type: 'REJECT', message: 'No luck today' });
-        }
-      }, 2000);
+        });
     },
-    updateData: (_, event) => {
-      this.setState({ data: event.data });
+    updateData: (context, event) => {
+      this.setState({
+        data: event.data
+      });
     }
   };
   machine = Machine(
@@ -34,20 +33,15 @@ export class PromiseApp extends React.Component {
           }
         },
         pending: {
-          onEntry: 'fetchData',
+          onEntry: ['fetchData'],
           on: {
-            FULFILL: 'fulfilled',
-            REJECT: 'rejected'
-          }
-        },
-        rejected: {
-          on: {
-            FETCH: 'pending'
+            FULFILL: 'fulfilled'
           }
         },
         fulfilled: {
           onEntry: ['updateData']
-        }
+        },
+        rejected: {}
       }
     },
     { actions: this.actions }
@@ -57,36 +51,30 @@ export class PromiseApp extends React.Component {
     data: []
   };
   send(event) {
-    const nextState = this.machine.transition(this.state.appState, event);
-    const { actions } = nextState;
+    const { appState } = this.state;
 
-    this.setState(
-      {
-        appState: nextState
-      },
-      () => {
-        actions.forEach(action => {
-          // Look up the action
-          const exec = this.actions[action.type];
+    const nextState = this.machine.transition(appState, event);
 
-          if (exec) {
-            exec(this.state, event);
-          }
-        });
-      }
-    );
+    nextState.actions.forEach(action => {
+      action.exec && action.exec(this.state, event);
+    });
+
+    this.setState({ appState: nextState });
   }
   render() {
+    const { data } = this.state;
+
     return (
       <Exercise
         title="Promise"
         machine={this.machine}
         state={this.state.appState}
       >
-        <div onClick={_ => this.send('FETCH')}>
-          {JSON.stringify(this.state.appState.value, null, 2)}
-          {this.state.data && JSON.stringify(this.state.data, null, 2)}
-        </div>
+        {this.state.appState.value === 'pending' && 'Fetching data...'}
+        {this.state.appState.value === 'fulfilled' && (
+          <pre>{JSON.stringify(this.state.data, null, 2)}</pre>
+        )}
+        <button onClick={_ => this.send('FETCH')}>Fetch data</button>
       </Exercise>
     );
   }
