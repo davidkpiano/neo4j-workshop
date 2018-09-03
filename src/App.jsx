@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { FiniteStateMachine } from './00-finite-state-machine/example';
-import { PromiseApp } from './01-promise';
+import { PromiseApp } from './01-promise/example';
 import { ExternalStateApp } from './02-external-state';
 import { InterpreterApp } from './03-interpreter';
 import { NestedApp } from './04-nested';
@@ -36,6 +36,7 @@ const StyledApp = styled.div`
   display: grid;
   grid-template-columns: 20rem 1fr;
   height: 100%;
+  overflow: hidden;
 `;
 
 const StyledNav = styled.nav`
@@ -62,6 +63,7 @@ const StyledNavItem = styled.li`
 const StyledExample = styled.div`
   grid-column: 2 / -1;
   padding: 1rem;
+  overflow-y: auto;
 `;
 
 function getCurrentExample(hash) {

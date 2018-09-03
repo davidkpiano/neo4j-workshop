@@ -103,12 +103,20 @@ export class StateViewer extends React.Component {
           background: 'white'
         }}
       >
-        <pre>{JSON.stringify(state.context, null, 2)}</pre>
+        <pre
+          style={{
+            maxHeight: '10vh',
+            overflowY: 'auto'
+          }}
+        >
+          {JSON.stringify(state.context, null, 2)}
+        </pre>
         <div
           style={{
             display: 'flex',
             flexDirection: 'row',
-            flexWrap: 'wrap'
+            flexWrap: 'wrap',
+            width: '100%'
           }}
         >
           {this.renderStates(this.props.machine)}

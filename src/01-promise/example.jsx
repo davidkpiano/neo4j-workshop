@@ -15,6 +15,9 @@ export class PromiseApp extends React.Component {
             type: 'FULFILL',
             data
           });
+        })
+        .catch(e => {
+          this.send('REJECT');
         });
     },
     updateData: (context, event) => {
@@ -35,13 +38,21 @@ export class PromiseApp extends React.Component {
         pending: {
           onEntry: ['fetchData'],
           on: {
-            FULFILL: 'fulfilled'
+            FULFILL: 'fulfilled',
+            REJECT: 'rejected'
           }
         },
         fulfilled: {
-          onEntry: ['updateData']
+          onEntry: ['updateData'],
+          on: {
+            FETCH: 'pending'
+          }
         },
-        rejected: {}
+        rejected: {
+          on: {
+            FETCH: 'pending'
+          }
+        }
       }
     },
     { actions: this.actions }
