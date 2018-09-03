@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { FiniteStateMachine } from './00-finite-state-machine';
+import { FiniteStateMachine } from './00-finite-state-machine/example';
 import { PromiseApp } from './01-promise';
 import { ExternalStateApp } from './02-external-state';
 import { InterpreterApp } from './03-interpreter';
@@ -14,6 +14,8 @@ import { InternalExternalApp } from './09-internal-external';
 import { MultipleApp } from './10-multiple';
 import { TestingApp } from './11-testing';
 import styled from 'styled-components';
+
+import { Feedback } from './feedback';
 
 const examples = [
   FiniteStateMachine,

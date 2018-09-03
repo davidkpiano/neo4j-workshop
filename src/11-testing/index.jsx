@@ -79,6 +79,7 @@ export class TestingApp extends Component {
 
   componentDidMount() {
     this.interpreter.init();
+
     window.addEventListener('keyup', e => {
       if (e.key === 'Escape') {
         this.interpreter.send('ESC');

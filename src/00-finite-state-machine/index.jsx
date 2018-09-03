@@ -7,13 +7,33 @@ export class FiniteStateMachine extends React.Component {
   machine = Machine({
     initial: 'green',
     states: {
-      green: {}
+      green: {
+        on: {
+          TIMER: 'yellow'
+        }
+      },
+      yellow: {
+        on: {
+          TIMER: 'red'
+        }
+      },
+      red: {
+        on: {
+          TIMER: 'green'
+        }
+      }
     }
   });
   state = {
     appState: this.machine.initialState
   };
-  send(event) {}
+  send(event) {
+    const { appState } = this.state;
+
+    const nextState = this.machine.transition(appState, event);
+
+    this.setState({ appState: nextState });
+  }
   render() {
     return (
       <Exercise
@@ -21,8 +41,8 @@ export class FiniteStateMachine extends React.Component {
         machine={this.machine}
         state={this.state.appState}
       >
-        Create a simple traffic light, that changes color when it is clicked (or
-        on a timer).
+        {this.state.appState.value}
+        <button onClick={_ => this.send('TIMER')}>Trigger timer</button>
       </Exercise>
     );
   }

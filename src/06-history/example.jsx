@@ -1,4 +1,3 @@
-// @ts-check
 import React from 'react';
 import { Machine } from 'xstate';
 import { assign } from 'xstate/lib/actions';
