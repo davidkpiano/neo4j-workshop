@@ -21,7 +21,8 @@ export class FiniteStateMachine extends React.Component {
         machine={this.machine}
         state={this.state.appState}
       >
-        Put your code here!
+        Create a simple traffic light, that changes color when it is clicked (or
+        on a timer).
       </Exercise>
     );
   }
