@@ -7,12 +7,15 @@
     "react-testing-library": "^5.0.0"
   },
   "dependencies": {
+    "mobx": "^5.1.1",
+    "mobx-react": "^5.2.8",
+    "mobx-state-tree": "^3.3.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "styled-components": "^3.4.5",
-    "xstate": "^4.0.0-0"
+    "xstate": "^4.0.0-7"
   },
   "scripts": {
     "start": "react-scripts start",
